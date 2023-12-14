@@ -1,0 +1,13 @@
+[package]
+name = "ezkl-test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+core-ezkl = {path = "core-ezkl"}
+serde_json = "1.0"
+halo2curves = "0.1.0"
+halo2_proofs = { git = "https://github.com/zkonduit/halo2", branch= "ac/lookup-modularity"  }
+serde = "1.0"
