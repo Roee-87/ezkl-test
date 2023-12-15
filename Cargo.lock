@@ -195,6 +195,7 @@ dependencies = [
  "halo2_proofs",
  "halo2curves 0.4.0",
  "serde",
+ "serde_json",
 ]
 
 [[package]]

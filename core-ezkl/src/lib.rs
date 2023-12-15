@@ -4,6 +4,11 @@ use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use clap::ValueEnum;
 //use snark_verifier::verifier::plonk::PlonkProtocol;
+use std::{
+    fs,
+    fs::File,
+    io::{BufReader, BufWriter, Read, Write},
+};
 
 
 #[allow(missing_docs)]
@@ -41,4 +46,15 @@ pub struct Snark<F: PrimeField + SerdeObject>
     /// the split proof
     #[serde(skip)]
     pub split: Option<ProofSplitCommit>,
+}
+
+impl<F: PrimeField + SerdeObject + Serialize + FromUniformBytes<64> + DeserializeOwned> Snark<F> {
+    pub fn load(
+        proof_path: &str,
+    ) -> Self {
+        let mut f1 = File::open(proof_path).expect("Could not find path");
+        let mut json_file = String::new();
+        f1.read_to_string(&mut json_file).expect("Unable to read to string");
+        serde_json::from_str(&json_file).unwrap()
+    }
 }
