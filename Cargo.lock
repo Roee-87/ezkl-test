@@ -193,7 +193,7 @@ dependencies = [
  "clap",
  "halo2_gadgets",
  "halo2_proofs",
- "halo2curves 0.4.0",
+ "halo2curves",
  "serde",
  "serde_json",
 ]
@@ -289,7 +289,7 @@ version = "0.1.0"
 dependencies = [
  "core-ezkl",
  "halo2_proofs",
- "halo2curves 0.1.0",
+ "halo2curves",
  "serde",
  "serde_json",
 ]
@@ -353,7 +353,7 @@ dependencies = [
  "ff",
  "group",
  "halo2_proofs",
- "halo2curves 0.1.0",
+ "halo2curves",
  "lazy_static",
  "rand",
  "subtle",
@@ -369,7 +369,7 @@ dependencies = [
  "env_logger",
  "ff",
  "group",
- "halo2curves 0.1.0",
+ "halo2curves",
  "log",
  "maybe-rayon",
  "rand_chacha",
@@ -394,27 +394,8 @@ dependencies = [
  "paste",
  "rand",
  "rand_core",
- "static_assertions",
- "subtle",
-]
-
-[[package]]
-name = "halo2curves"
-version = "0.4.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2curves.git#823212a9735b2812dc065b4b7052926555dd4560"
-dependencies = [
- "blake2b_simd",
- "ff",
- "group",
- "lazy_static",
- "maybe-rayon",
- "num-bigint",
- "num-traits",
- "pairing",
- "pasta_curves",
- "paste",
- "rand",
- "rand_core",
+ "serde",
+ "serde_arrays",
  "static_assertions",
  "subtle",
 ]
@@ -562,15 +543,6 @@ name = "opaque-debug"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
-
-[[package]]
-name = "pairing"
-version = "0.23.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81fec4625e73cf41ef4bb6846cafa6d44736525f442ba45e407c4a000a13996f"
-dependencies = [
- "group",
-]
 
 [[package]]
 name = "pasta_curves"
@@ -734,6 +706,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "25dd9975e68d0cb5aa1120c288333fc98731bd1dd12f561e468ea4728c042b89"
 dependencies = [
  "serde_derive",
+]
+
+[[package]]
+name = "serde_arrays"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38636132857f68ec3d5f3eb121166d2af33cb55174c4d5ff645db6165cbef0fd"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
