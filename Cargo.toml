@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 core-ezkl = {path = "core-ezkl"}
 serde_json = "1.0"
-halo2curves = "0.1.0"
+halo2curves = { version = "0.1.0", features = ["derive_serde"] }
 halo2_proofs = { git = "https://github.com/zkonduit/halo2", branch= "ac/lookup-modularity"  }
 serde = "1.0"
+
+
