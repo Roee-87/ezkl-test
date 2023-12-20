@@ -1,5 +1,4 @@
-use clap::ValueEnum;
-use halo2curves::ff::{FromUniformBytes, PrimeField};
+use halo2curves::ff::{FromUniformBytes, PrimeField, WithSmallOrderMulGroup};
 use halo2curves::serde::SerdeObject;
 use halo2curves::bn256::Bn256;
 use halo2_proofs::poly::commitment::{Params, CommitmentScheme};
@@ -10,7 +9,6 @@ use halo2_proofs::plonk::{
 };
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-<<<<<<< HEAD
 use clap::{Args, ValueEnum};
 use halo2curves::CurveAffine;
 use std::ops::Deref;
@@ -22,10 +20,6 @@ use std::{
     fs::File,
     io::{BufReader, BufWriter, Read, Write},
 };
-
-=======
-use std::{fs::File, io::Read};
->>>>>>> 0e060a10c3afee9e314be3623c1a413e28ae22e9
 
 #[allow(missing_docs)]
 #[derive(
@@ -63,7 +57,6 @@ pub struct Snark<F: PrimeField + SerdeObject> {
     pub split: Option<ProofSplitCommit>,
 }
 
-<<<<<<< HEAD
 impl<F: PrimeField + SerdeObject + Serialize + FromUniformBytes<64> + DeserializeOwned> Snark<F>
 {
     pub fn load(
@@ -182,14 +175,18 @@ pub fn get_verifier_params(settings_path: &str, srs_path: &str) -> ParamsKZG<Bn2
     if logrows < params.k() {
        params.downsize(logrows);
     }
-    params
-    // // obtain the verifier params and serialize to bytes
-    // let v_params = params.verifier_params();
-    // let mut v_params_bytes: Vec<u8> = Vec::new();
-    // let _ = <ParamsKZG<_> as Params<_>>::write(&v_params, &mut v_params_bytes);
-    // v_params_bytes
+    let vparams = params.verifier_params();
+    vparams.clone()
 }
-pub fn get_verifier_key(vk_path: &str, params: ParamsKZG<Bn256>) -> VerifyingKey<Bn256>
+
+pub fn v_params_to_bytes(params: ParamsKZG<Bn256>) -> Vec<u8> {
+    // obtain the verifier params and serialize to bytes
+    let mut v_params_bytes: Vec<u8> = Vec::new();
+    let _ = <ParamsKZG<_> as Params<_>>::write(&params, &mut v_params_bytes);
+    v_params_bytes
+}
+
+pub fn get_verifier_key<C>(vk_path: &str, params: ParamsKZG<Bn256>) -> VerifyingKey<Bn256>
 where 
     C: Circuit<Scalar: Serialize + DeserializeOwned> 
     {
@@ -203,14 +200,3 @@ where
     )
     .expect()
 }
-=======
-impl<F: PrimeField + SerdeObject + FromUniformBytes<64> + DeserializeOwned> Snark<F> {
-    pub fn load(proof_path: &str) -> Self {
-        let mut f1 = File::open(proof_path).expect("Could not find path");
-        let mut json_file = String::new();
-        f1.read_to_string(&mut json_file)
-            .expect("Unable to read to string");
-        serde_json::from_str(&json_file).unwrap()
-    }
-}
->>>>>>> 0e060a10c3afee9e314be3623c1a413e28ae22e9
