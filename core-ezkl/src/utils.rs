@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 // Float Utils to enable the usage of f32s as the keys of HashMaps
 // This section is taken from the `eq_float` crate verbatim -- but we also implement deserialization methods
 //
-//
+// I've also added the definition of the Scale type
 
 use std::cmp::Ordering;
 use std::fmt;

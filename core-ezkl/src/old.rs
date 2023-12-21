@@ -19,24 +19,6 @@ use std::ops::Deref;
 //     io::{BufReader, BufWriter, Read, Write},
 // };
 
-#[allow(missing_docs)]
-#[derive(
-    ValueEnum, Default, Copy, Clone, Debug, PartialEq, Eq, Deserialize, Serialize, PartialOrd,
-)]
-pub enum TranscriptType {
-    //Poseidon,
-    #[default]
-    EVM,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-/// A proof split commit
-pub struct ProofSplitCommit {
-    /// The start index of the output in the witness
-    start: usize,
-    /// The end index of the output in the witness
-    end: usize,
-}
 
 #[derive(Debug, Args, Deserialize, Serialize, Clone, Default, PartialEq, PartialOrd)]
 pub struct RunArgs {
@@ -109,33 +91,6 @@ pub struct GraphSettings {
     pub num_blinding_factors: Option<usize>,
 }
 
-fn get_log_rows(settings_path: &str) -> u32 {
-    let settings: GraphSettings = serde_json::from_str(&settings_path).unwrap();
-    settings.run_args.logrows
-}
 
-pub fn get_verifier_params(settings_path: &str, srs_path: &str) -> ParamsKZG<Bn256> {
-    // read in log_rows from teh settings struct
-    let logrows = get_log_rows(settings_path);
 
-    // read in the params binary file as bytes
-    let mut f = File::open(srs_path).expect("File not found");
-    let metadata = fs::metadata(srs_path).expect("unable to read metadata");
-    let mut buf: Vec<u8> = vec![0; metadata.len() as usize];
-    f.read(&mut buf).expect("Buffer overflow");
 
-    // deserialize the params and downsize if necessary
-    let mut params: ParamsKZG<Bn256> = Params::read::<_>(&mut &buf[..]).unwrap();
-    if logrows < params.k() {
-       params.downsize(logrows);
-    }
-    let vparams = params.verifier_params();
-    vparams.clone()
-}
-
-pub fn v_params_to_bytes(params: ParamsKZG<Bn256>) -> Vec<u8> {
-    // obtain the verifier params and serialize to bytes
-    let mut v_params_bytes: Vec<u8> = Vec::new();
-    let _ = <ParamsKZG<_> as Params<_>>::write(&params, &mut v_params_bytes);
-    v_params_bytes
-}

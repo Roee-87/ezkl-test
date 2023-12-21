@@ -1,7 +1,10 @@
 use std::error::Error;
 use serde::{Deserialize, Serialize};
-use crate::utils::{Scale, F32};
+use crate::utils::F32;
+use clap::Args;
 
+/// The denominator in the fixed point representation used when quantizing inputs
+pub type Scale = i32;
 
 /// Parameters specific to a proving run
 #[derive(Debug, Args, Deserialize, Serialize, Clone, PartialEq, PartialOrd)]
