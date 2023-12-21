@@ -1,4 +1,7 @@
 use serde::{Serialize, Deserialize};
+use utils::Scale;
+use std::collections::BTreeMap;
+use halo2curves::bn256::Fr as Fp;
 
 /// A struct for loading from an Onnx file and converting a computational graph to a circuit.
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
@@ -38,7 +41,7 @@ pub enum NodeType {
         ///
         out_dims: Vec<Vec<usize>>,
         ///
-        out_scales: Vec<crate::Scale>,
+        out_scales: Vec<Scale>,
     },
 }
 
@@ -114,4 +117,44 @@ pub enum Visibility {
     KZGCommit,
     /// assigned as a constant in the circuit
     Fixed,
+}
+
+/// A single operation in a [crate::graph::Model].
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Node {
+    /// [Op] i.e what operation this node represents.
+    pub opkind: SupportedOp,
+    /// The denominator in the fixed point representation for the node's output. Tensors of differing scales should not be combined.
+    pub out_scale: i32,
+    // Usually there is a simple in and out shape of the node as an operator.  For example, an Affine node has three input_shapes (one for the input, weight, and bias),
+    // but in_dim is [in], out_dim is [out]
+    /// The indices of the node's inputs.
+    pub inputs: Vec<Outlet>,
+    /// Dimensions of output.
+    pub out_dims: Vec<usize>,
+    /// The node's unique identifier.
+    pub idx: usize,
+    /// The node's num of uses
+    pub num_uses: usize,
+}
+
+/// A single operation in a [crate::graph::Model].
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum SupportedOp {
+    /// A linear operation.
+    Linear(PolyOp<Fp>),
+    /// A nonlinear operation.
+    Nonlinear(LookupOp),
+    /// A hybrid operation.
+    Hybrid(HybridOp),
+    ///
+    Input(Input),
+    ///
+    Constant(Constant<Fp>),
+    ///
+    Unknown(Unknown),
+    ///
+    Rescaled(Rescaled),
+    ///
+    RebaseScale(RebaseScale),
 }
