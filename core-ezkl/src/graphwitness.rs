@@ -1,3 +1,5 @@
+use halo2curves::bn256::{Bn256, Fr as Fp, G1Affine};
+
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
 pub struct GraphWitness {
     /// The inputs of the forward pass

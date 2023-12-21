@@ -1,3 +1,5 @@
+use utils::{F32, Scale};
+
 /// model parameters
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
 pub struct GraphSettings {
@@ -12,9 +14,9 @@ pub struct GraphSettings {
     /// the shape of public inputs to the model (in order of appearance)
     pub model_instance_shapes: Vec<Vec<usize>>,
     /// model output scales
-    pub model_output_scales: Vec<crate::Scale>,
+    pub model_output_scales: Vec<Scale>,
     /// model input scales
-    pub model_input_scales: Vec<crate::Scale>,
+    pub model_input_scales: Vec<Scale>,
     /// the of instance cells used by modules
     pub module_sizes: ModuleSizes,
     /// required_lookups

@@ -1,4 +1,4 @@
-use halo2curves::bn256::{self, Bn256, Fr as Fp, G1Affine};
+use halo2curves::bn256::{Bn256, Fr as Fp, G1Affine};
 
 
 

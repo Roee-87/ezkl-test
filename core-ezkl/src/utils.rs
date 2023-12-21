@@ -10,6 +10,8 @@ use std::cmp::Ordering;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 
+pub type Scale: i32;
+
 #[derive(Debug, Default, Clone, Copy)]
 /// f32 wrapper
 pub struct F32(pub f32);
